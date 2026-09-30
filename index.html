@@ -1,0 +1,368 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Hugo Rojas Aldieri, MD, PhD · Learning Design</title>
+<meta name="description" content="Learning designer Hugo Rojas Aldieri: microlearning, health campaigns, certification programmes, online courses, and an interactive 3D demo built in Blender and three.js.">
+<meta property="og:title" content="Hugo Rojas Aldieri, MD, PhD · Learning Design">
+<meta property="og:description" content="Learning design portfolio, with a playable interactive 3D video lesson.">
+<meta property="og:image" content="assets/video/hero-poster.jpg">
+<link rel="icon" href="assets/brand/mark.svg" type="image/svg+xml">
+<link rel="stylesheet" href="assets/fonts/fonts.css">
+<style>
+:root{
+  --ink:#0E1B2C; --ink-2:#1B2B40; --paper:#F5F2EC; --sand:#E9E2D5; --coral:#FF6A3D; --sun:#FFC24B; --teal:#1FB5A5; --sky:#7CC4FF;
+  --muted:#4F5B6B; --line:#DDD5C7; --card:#FFFFFF;
+  --display:'Sora',system-ui,sans-serif; --body:'Inter',system-ui,sans-serif;
+  --ease:cubic-bezier(.2,.8,.2,1); --shadow:0 2px 6px rgba(14,27,44,.05),0 18px 44px rgba(14,27,44,.10);
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){ --paper:#0E1B2C; --ink:#F5F2EC; --ink-2:#D8DEE6; --sand:#1B2B40; --muted:#A9B4C2; --line:#26374D; --card:#15243A; }
+}
+:root[data-theme="dark"]{ --paper:#0E1B2C; --ink:#F5F2EC; --ink-2:#D8DEE6; --sand:#1B2B40; --muted:#A9B4C2; --line:#26374D; --card:#15243A; }
+*{box-sizing:border-box}
+html{scroll-behavior:smooth;-webkit-text-size-adjust:100%}
+@media (prefers-reduced-motion: reduce){html{scroll-behavior:auto}}
+body{margin:0;background:var(--paper);color:var(--ink);font:17px/1.6 var(--body)}
+a{color:inherit;text-underline-offset:4px;text-decoration-color:var(--coral)}
+:focus-visible{outline:3px solid var(--sun);outline-offset:3px;border-radius:6px}
+.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+.skip{position:absolute;left:-999px;top:8px;background:var(--card);padding:8px 12px;border-radius:8px;z-index:10}
+.skip:focus{left:16px}
+.wrap{max-width:1180px;margin:0 auto;padding:0 16px}
+
+header.site{position:sticky;top:0;z-index:20;background:color-mix(in srgb,var(--paper) 86%,transparent);backdrop-filter:blur(10px);border-bottom:1px solid var(--line)}
+header.site .wrap{display:flex;align-items:center;justify-content:space-between;gap:12px;min-height:62px}
+.mark{display:flex;align-items:center;gap:10px;text-decoration:none;font:700 1rem var(--display);letter-spacing:-.01em}
+.mark img{width:32px;height:32px;border-radius:9px}
+header.site nav{display:flex;gap:22px;font:600 .95rem var(--display)}
+header.site nav a{text-decoration:none;color:var(--muted)}
+header.site nav a:hover{color:var(--ink)}
+
+/* hero */
+.hero{display:grid;grid-template-columns:minmax(0,5fr) minmax(0,7fr);gap:44px;align-items:center;padding:64px 0 56px}
+@media (max-width:900px){.hero{grid-template-columns:minmax(0,1fr);gap:28px;padding-top:36px}}
+.who{display:flex;align-items:center;gap:14px;margin-bottom:22px}
+.avatar{width:84px;height:84px;border-radius:50%;object-fit:cover;box-shadow:0 0 0 4px var(--paper),0 0 0 7px var(--coral)}
+.who p{margin:0;font:600 .95rem var(--display);color:var(--muted)}
+.who b{display:block;font:700 1.05rem var(--display);color:var(--ink)}
+.hero h1{font:800 clamp(2.3rem,5vw,3.9rem)/1.04 var(--display);letter-spacing:-.035em;margin:0 0 18px}
+.hero h1 .path{color:var(--coral)}
+.hero .lead{font-size:1.2rem;color:var(--muted);margin:0 0 28px;max-width:32rem}
+.cta{display:flex;flex-wrap:wrap;gap:12px}
+.btn{display:inline-flex;align-items:center;gap:10px;border-radius:99px;padding:12px 22px;font:700 .98rem var(--display);text-decoration:none;border:2px solid var(--ink);transition:transform .2s var(--ease),background .2s,color .2s}
+.btn.primary{background:var(--ink);color:var(--paper)}
+.btn.primary:hover{background:var(--coral);border-color:var(--coral);color:#fff;transform:translateY(-2px)}
+.btn.ghost:hover{background:var(--ink);color:var(--paper)}
+.film{position:relative;border-radius:22px;overflow:hidden;box-shadow:var(--shadow);background:var(--sand);aspect-ratio:16/9;margin:0}
+.film video{display:block;width:100%;height:100%;object-fit:cover}
+.film figcaption{position:absolute;left:14px;bottom:14px;right:14px;display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap}
+.chip{display:inline-flex;align-items:center;gap:6px;font:700 .78rem var(--display);padding:6px 11px;border-radius:99px;background:rgba(14,27,44,.82);color:#fff;backdrop-filter:blur(6px)}
+.chip.coral{background:var(--coral)}
+.film .toggle{border:0;cursor:pointer}
+
+/* section heads */
+.sec-head{display:flex;align-items:end;justify-content:space-between;gap:16px;margin:0 0 22px;flex-wrap:wrap}
+.eyebrow{font:700 .78rem var(--display);letter-spacing:.16em;text-transform:uppercase;color:var(--coral);margin:0 0 8px}
+.sec-head h2{font:800 clamp(1.7rem,3.4vw,2.5rem)/1.1 var(--display);letter-spacing:-.025em;margin:0}
+.sec-head p{margin:0;color:var(--muted);max-width:30rem}
+
+/* hero film doubles as the demo's launcher */
+.film-play{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:14px;text-decoration:none;color:#fff;
+  background:radial-gradient(60% 60% at 50% 50%,rgba(14,27,44,.28),rgba(14,27,44,0) 70%);transition:background .3s}
+.film-play:hover,.film-play:focus-visible{background:radial-gradient(70% 70% at 50% 50%,rgba(14,27,44,.42),rgba(14,27,44,.05) 75%)}
+.film-play .disc{width:88px;height:88px;border-radius:50%;background:var(--coral);display:grid;place-items:center;font-size:30px;padding-left:6px;
+  box-shadow:0 0 0 10px rgba(255,106,61,.25),0 14px 40px rgba(255,106,61,.45);transition:transform .3s var(--ease)}
+.film-play:hover .disc{transform:scale(1.08)}
+.film-title{text-align:center;text-shadow:0 2px 14px rgba(14,27,44,.55)}
+.film-title b{display:block;font:800 1.5rem var(--display);letter-spacing:-.02em}
+.film-title small{font:600 .85rem var(--display);opacity:.95}
+.film figcaption{pointer-events:none}.film figcaption .toggle{pointer-events:auto}
+@media (prefers-reduced-motion: no-preference){.film-play .disc{animation:beat 2.4s var(--ease) infinite}}
+@keyframes beat{0%,100%{box-shadow:0 0 0 10px rgba(255,106,61,.25),0 14px 40px rgba(255,106,61,.45)}50%{box-shadow:0 0 0 18px rgba(255,106,61,.08),0 14px 40px rgba(255,106,61,.45)}}
+
+.demo-dlg{width:min(96vw,1400px);height:min(92vh,820px);max-width:none;max-height:none;padding:0;border:0;border-radius:18px;overflow:hidden;background:#F5F2EC;box-shadow:0 30px 90px rgba(0,0,0,.45)}
+.demo-dlg::backdrop{background:rgba(14,27,44,.72);backdrop-filter:blur(6px)}
+.demo-dlg[open]{display:flex;flex-direction:column}
+.dlg-bar{display:flex;align-items:center;gap:12px;padding:10px 12px 10px 18px;background:#0E1B2C;color:#F5F2EC}
+.dlg-bar p{margin:0;flex:1;min-width:0;font-size:.85rem;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;color:#C9D2DD}
+.dlg-bar b{font-family:var(--display);color:#fff}
+.dlg-link{font:700 .82rem var(--display);color:#fff;text-decoration:none;opacity:.85}
+.dlg-link:hover{opacity:1;text-decoration:underline}
+.dlg-close{width:38px;height:38px;border-radius:10px;border:0;background:rgba(255,255,255,.1);color:#fff;font-size:1rem;cursor:pointer}
+.dlg-close:hover{background:var(--coral)}
+.dlg-stage{flex:1;position:relative}
+.dlg-stage iframe{position:absolute;inset:0;width:100%;height:100%;border:0}
+@media (max-width:760px){.demo-dlg{width:100vw;height:100dvh;border-radius:0}.dlg-bar p{display:none}}
+
+/* work */
+.work{padding:56px 0 16px;border-top:1px solid var(--line);scroll-margin-top:70px}
+.project{display:grid;grid-template-columns:minmax(0,5fr) minmax(0,7fr);gap:40px;align-items:center;padding:34px 0;scroll-margin-top:70px}
+.project + .project{border-top:1px dashed var(--line)}
+.project:nth-of-type(even){grid-template-columns:minmax(0,7fr) minmax(0,5fr)}
+.project:nth-of-type(even) .text{order:2}
+@media (max-width:900px){.project,.project:nth-of-type(even){grid-template-columns:minmax(0,1fr);gap:18px}.project:nth-of-type(even) .text{order:0}}
+.num{font:800 .8rem var(--display);color:var(--coral);letter-spacing:.1em}
+.project h3{font:800 1.75rem/1.15 var(--display);letter-spacing:-.02em;margin:6px 0 6px}
+.project .sub{color:var(--muted);margin:0 0 12px;font-size:.98rem}
+.project .sub strong{color:var(--ink);font-weight:600}
+.project .text p{margin:0 0 14px}
+.chips{display:flex;flex-wrap:wrap;gap:8px;margin:0 0 18px;padding:0;list-style:none}
+.chips li{background:color-mix(in srgb,var(--coral) 12%,var(--card));color:var(--ink);font:700 .88rem var(--display);padding:6px 12px;border-radius:99px}
+.open{display:inline-flex;align-items:center;gap:8px;font:700 .95rem var(--display);text-decoration:none;border-bottom:2px solid var(--coral);padding-bottom:2px}
+.open:hover{color:var(--coral)}
+.window{display:block;background:var(--card);border:1px solid var(--line);border-radius:14px;box-shadow:var(--shadow);overflow:hidden;text-decoration:none;color:inherit;transition:transform .3s var(--ease)}
+a.window:hover{transform:translateY(-4px) rotate(-.3deg)}
+@media (prefers-reduced-motion: reduce){a.window:hover{transform:none}}
+.window .bar{display:flex;align-items:center;gap:10px;background:var(--sand);padding:8px 12px;border-bottom:1px solid var(--line)}
+.window .dots{display:flex;gap:6px}.window .dots i{width:10px;height:10px;border-radius:50%;background:var(--line)}
+.window .dots i:first-child{background:var(--coral)}
+.window .url{flex:1;min-width:0;background:var(--card);border-radius:6px;padding:3px 10px;font-size:.78rem;color:var(--muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.window img{display:block;width:100%;height:auto}
+.pair{display:flex;gap:16px;align-items:flex-end}.pair .window{flex:1 1 auto;min-width:0}
+.phone{flex:0 0 30%;background:#0E1B2C;border-radius:26px;padding:8px;box-shadow:var(--shadow)}
+.phone img{display:block;width:100%;height:auto;border-radius:18px}
+.video .play{position:relative;display:block;width:100%;padding:0;border:0;background:#000;border-radius:14px;overflow:hidden;cursor:pointer;box-shadow:var(--shadow);aspect-ratio:16/9}
+.video .play img{display:block;width:100%;height:100%;object-fit:cover;opacity:.92}
+.video .btn-play{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);width:76px;height:76px;border-radius:50%;background:var(--coral);color:#fff;font-size:28px;display:flex;align-items:center;justify-content:center;padding-left:5px;box-shadow:0 10px 30px rgba(255,106,61,.4)}
+.video iframe{display:block;width:100%;aspect-ratio:16/9;border:0;border-radius:14px;box-shadow:var(--shadow)}
+.video .vnote{font-size:.8rem;color:var(--muted);margin:8px 0 0}
+.textonly{background:#0E1B2C;color:#F5F2EC;border-radius:14px;padding:30px;box-shadow:var(--shadow)}
+.textonly .big{font:800 4rem/1 var(--display);color:var(--coral);margin:0 0 10px}
+.textonly p{margin:0;font:600 1.05rem var(--display)}
+
+footer.site{border-top:1px solid var(--line);padding:56px 0 64px;margin-top:40px;scroll-margin-top:70px}
+footer.site .big{font:800 clamp(1.8rem,4vw,2.8rem)/1.1 var(--display);letter-spacing:-.025em;margin:0 0 16px}
+footer.site .contact{font:600 1.1rem var(--display)}
+footer.site .contact p{margin:0}
+footer.site .fine{color:var(--muted);font-size:.85rem;margin:22px 0 0}
+</style>
+</head>
+<body>
+<a class="skip" href="#demo">Skip to the demo</a>
+<header class="site">
+  <div class="wrap">
+    <a class="mark" href="#top"><img src="assets/brand/mark.svg" alt="">Hugo Rojas Aldieri</a>
+    <nav aria-label="Sections"><a href="xp/" data-demo>Demo</a><a href="#work">Work</a><a href="#contact">Contact</a></nav>
+  </div>
+</header>
+
+<main id="top" class="wrap">
+  <section class="hero" aria-labelledby="h1">
+    <div>
+      <div class="who">
+        <img class="avatar" src="assets/img/hugo.jpg" alt="Hugo Rojas Aldieri" width="84" height="84">
+        <p><b>Hugo Rojas Aldieri, MD, PhD</b>Learning designer · St. John's, Canada</p>
+      </div>
+      <h1 id="h1">Learning you can <span class="path">play</span>, built on evidence.</h1>
+      <p class="lead">I design online learning for health professionals, and the platforms behind it.</p>
+      <div class="cta">
+        <a class="btn primary" href="xp/" data-demo>Play the demo</a>
+        <a class="btn ghost" href="#work">See the work</a>
+      </div>
+    </div>
+    <figure class="film" id="demo">
+      <video id="heroFilm" autoplay muted loop playsinline preload="metadata" poster="assets/video/hero-poster.jpg" aria-hidden="true">
+        <source src="assets/video/hero.webm" type="video/webm">
+        <source src="assets/video/hero.mp4" type="video/mp4">
+      </video>
+      <a class="film-play" href="xp/" data-demo aria-label="Play the interactive demo: Late shipment: an interactive 3D video">
+        <span class="disc" aria-hidden="true">▶</span>
+        <span class="film-title"><b>Late shipment</b><small>Interactive 3D lesson · about 5 min · sound on</small></span>
+      </a>
+      <figcaption>
+        <span class="chip">3D world modelled in Blender</span>
+        <button type="button" class="chip toggle" id="filmToggle" aria-pressed="false">❚❚ Pause loop</button>
+      </figcaption>
+    </figure>
+  </section>
+
+  
+  <dialog class="demo-dlg" id="demoDlg" aria-labelledby="demoDlgTitle">
+    <div class="dlg-bar">
+      <p id="demoDlgTitle"><b>Late shipment</b> · A five-minute lesson you play and act in. Find a supply problem in a 3D world I modelled in Blender, then fix it, with narration and word-by-word captions.</p>
+      <a class="dlg-link" href="xp/" target="_blank" rel="noopener">New tab ↗</a>
+      <button type="button" class="dlg-close" id="demoClose" aria-label="Close the demo">✕</button>
+    </div>
+    <div class="dlg-stage" id="demoStage"></div>
+  </dialog>
+  
+
+  <section class="work" id="work" aria-labelledby="work-h">
+    <div class="sec-head"><div><p class="eyebrow">Selected work</p><h2 id="work-h">Live, public, in use</h2></div><p>Each project links to the real thing.</p></div>
+    
+    <article class="project" id="ipcrg-breaths" aria-labelledby="ipcrg-breaths-h">
+      <div class="text">
+        <span class="num">01</span>
+        <h3 id="ipcrg-breaths-h">IPCRG Breaths</h3>
+        <p class="sub"><strong>Microlearning for primary care clinicians</strong> · IPCRG</p>
+        <p>Designed and launched: 23 five-minute courses, each a video, a case and a certificate.</p>
+        <ul class="chips" aria-label="Key numbers"><li>3,203 learners</li><li>2,058 completions</li><li>4.67 / 5 rating</li></ul>
+        <a class="open" href="https://breaths.ipcrg.org" target="_blank" rel="noopener">Open breaths.ipcrg.org ↗<span class="sr"> (opens in a new tab)</span></a>
+      </div>
+      <div class="visual">
+        
+        
+          
+          <a class="window" href="https://breaths.ipcrg.org" target="_blank" rel="noopener" aria-label="Open breaths.ipcrg.org in a new tab">
+            <span class="bar" aria-hidden="true"><span class="dots"><i></i><i></i><i></i></span><span class="url">breaths.ipcrg.org</span></span>
+            <img src="assets/img/breaths-home.jpg" alt="Breaths home page: bite-sized learning for better respiratory care, 3,200+ learners" loading="lazy">
+          </a>
+          
+        
+      </div>
+    </article>
+    
+    <article class="project" id="take-back-your-breath" aria-labelledby="take-back-your-breath-h">
+      <div class="text">
+        <span class="num">02</span>
+        <h3 id="take-back-your-breath-h">Take Back Your Breath</h3>
+        <p class="sub"><strong>Youth health campaign and quiz site</strong> · FRESHAIR4Life, 2026</p>
+        <p>Designed and built: a myth-or-fact quiz for 14 to 21-year-olds, in four languages.</p>
+        <ul class="chips" aria-label="Key numbers"><li>5 countries</li><li>4 languages</li><li>No cookies</li></ul>
+        <a class="open" href="https://takebackyourbreath.ipcrg.org" target="_blank" rel="noopener">Open takebackyourbreath.ipcrg.org ↗<span class="sr"> (opens in a new tab)</span></a>
+      </div>
+      <div class="visual">
+        
+        
+          <div class="pair">
+          <a class="window" href="https://takebackyourbreath.ipcrg.org" target="_blank" rel="noopener" aria-label="Open takebackyourbreath.ipcrg.org in a new tab">
+            <span class="bar" aria-hidden="true"><span class="dots"><i></i><i></i><i></i></span><span class="url">takebackyourbreath.ipcrg.org</span></span>
+            <img src="assets/img/tbyb-site.jpg" alt="Take Back Your Breath home page in English, with Greek, Romanian and Russian versions" loading="lazy">
+          </a>
+          <div class="phone"><img src="assets/img/tbyb-quiz.jpg" alt="The myth-or-fact quiz on a phone: five questions, anonymous, no cookies" loading="lazy"></div></div>
+        
+      </div>
+    </article>
+    
+    <article class="project" id="campaign-training-module" aria-labelledby="campaign-training-module-h">
+      <div class="text">
+        <span class="num">03</span>
+        <h3 id="campaign-training-module-h">Campaign training module</h3>
+        <p class="sub"><strong>Social media campaigns for health promotion</strong> · FRESHAIR4Life, Horizon Europe</p>
+        <p>Developed Module 12 and teach two of its four parts, with a hands-on planning toolkit.</p>
+        <ul class="chips" aria-label="Key numbers"><li>5 country teams</li><li>106,004 reached, Greek campaign</li><li>€0.21 per click</li></ul>
+        <a class="open" href="https://www.ipcrg.org/freshair4life/curriculum/12-social-media-campaigns-for-health-promotion" target="_blank" rel="noopener">Open ipcrg.org ↗<span class="sr"> (opens in a new tab)</span></a>
+      </div>
+      <div class="visual">
+        
+        
+          
+          <a class="window" href="https://www.ipcrg.org/freshair4life/curriculum/12-social-media-campaigns-for-health-promotion" target="_blank" rel="noopener" aria-label="Open ipcrg.org in a new tab">
+            <span class="bar" aria-hidden="true"><span class="dots"><i></i><i></i><i></i></span><span class="url">www.ipcrg.org/freshair4life/curriculum/12-social-media-campaigns-for-health-promotion</span></span>
+            <img src="assets/img/module12.jpg" alt="Module 12.2 on ipcrg.org: learning objectives, video and a practical exercise, with Hugo Rojas as faculty" loading="lazy">
+          </a>
+          
+        
+      </div>
+    </article>
+    
+    <article class="project" id="spirometry-simplified" aria-labelledby="spirometry-simplified-h">
+      <div class="text">
+        <span class="num">04</span>
+        <h3 id="spirometry-simplified-h">Spirometry Simplified</h3>
+        <p class="sub"><strong>International certification programme</strong> · IPCRG</p>
+        <p>Co-developed: online modules, a masterclass and a mentored portfolio assessment.</p>
+        <ul class="chips" aria-label="Key numbers"><li>8 h online</li><li>4 h masterclass</li><li>Mentored assessment</li></ul>
+        <a class="open" href="https://www.ipcrg.org/education/spirometry-simplified" target="_blank" rel="noopener">Open ipcrg.org ↗<span class="sr"> (opens in a new tab)</span></a>
+      </div>
+      <div class="visual">
+        
+        
+          <div class="video" data-yt="U30Iv_uM9s4">
+            <button type="button" class="play" aria-label="Play video: Spirometry Simplified, IPCRG (loads YouTube)">
+              <img src="assets/img/spirometry-video.jpg" alt="" loading="lazy"><span class="btn-play" aria-hidden="true">▶</span>
+            </button>
+            <p class="vnote">Plays from YouTube; nothing loads until you press play.</p>
+          </div>
+        
+      </div>
+    </article>
+    
+    <article class="project" id="online-courses" aria-labelledby="online-courses-h">
+      <div class="text">
+        <span class="num">05</span>
+        <h3 id="online-courses-h">Online courses</h3>
+        <p class="sub"><strong>PAHO, Yale and others</strong> · NextGenU.org, 2020–2023</p>
+        <p>Led the design team; ran a WHO/PAHO course for health ministry staff.</p>
+        <ul class="chips" aria-label="Key numbers"><li>16 courses</li><li>6+ staff led</li><li>12 Caribbean countries</li></ul>
+        <a class="open" href="https://courses.nextgenu.org/course/view.php?id=351" target="_blank" rel="noopener">Open courses.nextgenu.org ↗<span class="sr"> (opens in a new tab)</span></a>
+      </div>
+      <div class="visual">
+        
+        
+          
+          <a class="window" href="https://courses.nextgenu.org/course/view.php?id=351" target="_blank" rel="noopener" aria-label="Open courses.nextgenu.org in a new tab">
+            <span class="bar" aria-hidden="true"><span class="dots"><i></i><i></i><i></i></span><span class="url">courses.nextgenu.org/course/view.php?id=351</span></span>
+            <img src="assets/img/nextgenu.jpg" alt="The Pandemic Etiology, Preparedness, and Response course page on NextGenU.org" loading="lazy">
+          </a>
+          
+        
+      </div>
+    </article>
+    
+    <article class="project" id="ai-in-course-development" aria-labelledby="ai-in-course-development-h">
+      <div class="text">
+        <span class="num">06</span>
+        <h3 id="ai-in-course-development-h">AI in course development</h3>
+        <p class="sub"><strong>Since 2022, before ChatGPT</strong> · NextGenU.org</p>
+        <p>Led a GPT-3 study in course development, before ChatGPT was public.</p>
+        <ul class="chips" aria-label="Key numbers"><li>AI innovation award</li><li>Claude, Codex daily</li></ul>
+        
+      </div>
+      <div class="visual">
+        
+        
+          <div class="textonly" aria-hidden="true"><p class="big">2022</p><p>Question · Distractor · Case-scenario generators, built with GPT-3 for course teams.</p></div>
+        
+      </div>
+    </article>
+    
+  </section>
+</main>
+
+<footer class="site" id="contact">
+  <div class="wrap">
+    <p class="eyebrow">Contact</p>
+    <p class="big">Let's build something people finish.</p>
+    <div class="contact"><p><a href="mailto:arojasaldier@mun.ca">arojasaldier@mun.ca</a> · <a href="https://www.linkedin.com/in/hugo-andres-rojas-aldieri-984b8016b/" target="_blank" rel="noopener">LinkedIn<span class="sr"> (opens in a new tab)</span></a></p></div>
+    <p class="fine">No cookies, no tracking. Videos load from YouTube only when you press play. Previews show public pages; clinical content on them is written and reviewed by each organization's experts. The demo's company, app and data are fictional.</p>
+  </div>
+</footer>
+<script>
+document.querySelectorAll('.video .play').forEach(b => b.addEventListener('click', () => {
+  const box = b.closest('.video'), id = box.dataset.yt;
+  const f = document.createElement('iframe');
+  f.src = 'https://www.youtube-nocookie.com/embed/' + id + '?autoplay=1&rel=0';
+  f.title = b.getAttribute('aria-label').replace(' (loads YouTube)', '');
+  f.allow = 'autoplay; encrypted-media; picture-in-picture; fullscreen';
+  f.allowFullscreen = true;
+  b.replaceWith(f); f.focus();
+}));
+// the demo loads only when someone asks for it, in a full-screen dialog
+const dlg = document.getElementById('demoDlg'), stage = document.getElementById('demoStage');
+let opener = null;
+function openDemo(e) {
+  if (!dlg || !dlg.showModal) return; // no dialog support: follow the link to xp/
+  e.preventDefault(); opener = e.currentTarget;
+  stage.innerHTML = '<iframe src="xp/" title="Interactive 3D lesson: Late shipment" allow="fullscreen; autoplay"></iframe>';
+  dlg.showModal(); document.body.style.overflow = 'hidden';
+  stage.querySelector('iframe').focus();
+}
+function closeDemo() { if (dlg.open) dlg.close(); }
+document.querySelectorAll('[data-demo]').forEach(a => a.addEventListener('click', openDemo));
+if (dlg) {
+  document.getElementById('demoClose').addEventListener('click', closeDemo);
+  dlg.addEventListener('click', e => { if (e.target === dlg) closeDemo(); }); // click on the backdrop
+  dlg.addEventListener('close', () => { stage.innerHTML = ''; document.body.style.overflow = ''; opener && opener.focus(); }); // unloading stops the narration
+}
+const film = document.getElementById('heroFilm'), tog = document.getElementById('filmToggle');
+if (matchMedia('(prefers-reduced-motion: reduce)').matches) { film.pause(); film.removeAttribute('autoplay'); tog.textContent = '▶ Play loop'; tog.setAttribute('aria-pressed', 'true'); }
+tog.addEventListener('click', () => {
+  if (film.paused) { film.play(); tog.textContent = '❚❚ Pause loop'; tog.setAttribute('aria-pressed', 'false'); }
+  else { film.pause(); tog.textContent = '▶ Play loop'; tog.setAttribute('aria-pressed', 'true'); }
+});
+</script>
+</body>
+</html>

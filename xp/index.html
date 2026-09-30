@@ -1,0 +1,77 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Late Shipment · Interactive Simulation</title>
+<meta name="description" content="An interactive 3D video: resolve a late supplier shipment in PlanDesk, a fictional planning app. Designed and built by Hugo Rojas Aldieri.">
+<link rel="icon" href="../assets/brand/mark.svg" type="image/svg+xml">
+<link rel="stylesheet" href="../assets/fonts/fonts.css">
+<link rel="stylesheet" href="xp.css">
+<script type="importmap">
+{ "imports": {
+  "three": "./vendor/three/build/three.module.min.js",
+  "three/addons/": "./vendor/three/examples/jsm/"
+} }
+</script>
+<script src="vendor/gsap.min.js"></script>
+</head>
+<body>
+<div id="xp" class="xp" data-state="loading">
+  <div id="stage" class="stage" aria-hidden="true"></div>
+  <div id="anchors" class="anchors"></div>
+
+  <header class="xp-top">
+    <a class="brand" href="../" aria-label="Back to Hugo Rojas Aldieri's portfolio"><img src="../assets/brand/mark.svg" alt="" width="28" height="28"><span>Hugo Rojas Aldieri</span></a>
+    <p class="chapter-name" id="chapterName" aria-live="polite"></p>
+    <span class="fict">PlanDesk · fictional app, invented data</span>
+  </header>
+
+  <div id="panels" class="panels"></div>
+
+  <div id="prompt" class="prompt" role="status" aria-live="polite"></div>
+  <div id="captions" class="captions" aria-hidden="true"></div>
+
+  <nav class="bar" aria-label="Player controls">
+    <button type="button" class="ctl" id="btnPlay" aria-label="Pause"><svg viewBox="0 0 24 24" aria-hidden="true"><path class="i-pause" d="M7 5h3v14H7zM14 5h3v14h-3z"/><path class="i-play" d="M8 5l11 7-11 7z"/></svg></button>
+    <div class="chapters" id="chapters" role="list" aria-label="Chapters"></div>
+    <span class="time" id="time">0:00</span>
+    <button type="button" class="ctl" id="btnCC" aria-pressed="true" aria-label="Captions">CC</button>
+    <button type="button" class="ctl" id="btnMute" aria-pressed="false" aria-label="Mute"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 9h4l5-4v14l-5-4H4z"/><path class="i-wave" d="M16 8.5a5 5 0 0 1 0 7M18.5 6a8.5 8.5 0 0 1 0 12" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg></button>
+    <button type="button" class="ctl" id="btnTranscript" aria-expanded="false" aria-controls="transcript" aria-label="Transcript"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 5h14v2H5zm0 4h14v2H5zm0 4h10v2H5zm0 4h7v2H5z"/></svg></button>
+    <button type="button" class="ctl" id="btnFull" aria-label="Full screen"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 4h6v2H6v4H4zm10 0h6v6h-2V6h-4zM4 14h2v4h4v2H4zm14 0h2v6h-6v-2h4z"/></svg></button>
+  </nav>
+
+  <aside id="transcript" class="transcript" hidden aria-label="Transcript">
+    <h2>Transcript</h2>
+    <ol id="transcriptList"></ol>
+  </aside>
+
+  <section id="start" class="cover" aria-labelledby="startTitle">
+    <div class="cover-card">
+      <p class="eyebrow">Interactive simulation · about 5 minutes</p>
+      <h1 id="startTitle">Late shipment</h1>
+      <p class="lede">A supplier is two weeks late. Find out when stock runs out, then choose the fix that follows policy, working directly in the 3D world.</p>
+      <button type="button" class="big-play" id="btnStart" disabled><span class="dot" aria-hidden="true">▶</span><span id="startLabel">Loading the world…</span></button>
+      <p class="fine">Sound on for narration · captions and transcript included · keyboard friendly</p>
+    </div>
+  </section>
+
+  <section id="results" class="cover" hidden aria-labelledby="resultsTitle">
+    <div class="cover-card">
+      <p class="eyebrow">Lesson complete</p>
+      <h1 id="resultsTitle">Nicely handled.</h1>
+      <ul class="scores" id="scores"></ul>
+      <div class="cover-actions">
+        <button type="button" class="big-play" id="btnReplay"><span class="dot" aria-hidden="true">↺</span><span>Play again</span></button>
+        <a class="ghost" href="../">Back to the portfolio</a>
+      </div>
+      <p class="credits">Designed, written and built by Hugo Rojas Aldieri · 3D world modelled in Blender · real-time rendering with three.js · AI narration: ElevenLabs voice “Max” · company, app and data are fictional</p>
+    </div>
+  </section>
+
+  <div id="pausedBadge" class="paused-badge" hidden>Paused · press space or ▶ to continue</div>
+</div>
+<script type="module" src="xp.js"></script>
+</body>
+</html>
